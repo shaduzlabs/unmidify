@@ -9,10 +9,12 @@
 #  Unit tests                                                                                      #
 # ------------------------------------------------------------------------------------------------ #
 
-include_directories( ${PROJECT_SOURCE_DIR}/submodules/catch/include )
-include_directories( ${PROJECT_SOURCE_DIR}/include )
-
 project(unit-tests)
+
+# Dependencies ----------------------------------------------------------------------------------- #
+addCatch()
+
+# Unit tests files ------------------------------------------------------------------------------- #
 
 set(
   test_SRCS
@@ -20,7 +22,7 @@ set(
     unMIDIfy.cpp
 )
 
-source_group(""                  FILES ${test_SRCS})
+source_group("src"  FILES  ${test_SRCS})
 
 set(
   Test_FILES
@@ -31,6 +33,8 @@ add_executable(
   ${PROJECT_NAME}
   ${Test_FILES}
 )
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${CATCH_INCLUDE_DIR} ${UNMIDIFY_INCLUDE_DIR})
 
 add_test(NAME ${PROJECT_NAME}-runner
         COMMAND ${PROJECT_NAME} -b
