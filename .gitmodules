@@ -1,6 +1,0 @@
-[submodule "submodules/catch"]
-	path = submodules/catch
-	url = https://github.com/philsquared/Catch.git
-[submodule "submodules/rtmidi"]
-	path = submodules/rtmidi
-	url = https://github.com/thestk/rtmidi.git
