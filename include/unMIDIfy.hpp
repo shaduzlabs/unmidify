@@ -439,6 +439,64 @@ public:
   }
 };
 
+//--------------------------------------------------------------------------------------------------
+
+/**
+  \class Clock
+  \brief A MIDI beat clock message
+*/
+
+class Clock
+    : public midi::MidiMessageBase<midi::MidiMessage::Type::TimingClock>
+{
+public:
+
+  enum class Type : uint8_t
+  {
+    Unknown,
+    Clock,
+    Start,
+    Continue,
+    Stop,
+  };
+
+  Clock(MidiMessage::Type type_)
+    : MidiMessageBase(tRawData())
+  {
+    switch(type_)
+    {
+      case MidiMessage::Type::TimingClock:
+      {
+        m_type = Type::Clock;
+        break;
+      }
+      case MidiMessage::Type::Start:
+      {
+        m_type = Type::Start;
+        break;
+      }
+      case MidiMessage::Type::Continue:
+      {
+        m_type = Type::Continue;
+        break;
+      }
+      case MidiMessage::Type::Stop:
+      {
+        m_type = Type::Stop;
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
+  Type type() const { return m_type; }
+
+private:
+
+  Type m_type{Type::Unknown};
+};
+
 /** @} */ // End of group ChannelMessages
 
 //--------------------------------------------------------------------------------------------------
@@ -664,6 +722,14 @@ public:
         M_MESSAGE_CB(ProgramChange);
         M_MESSAGE_CB(ChannelPressure);
         M_MESSAGE_CB(PitchBend);
+      case MidiMessage::Type::TimingClock:
+      case MidiMessage::Type::Start:
+      case MidiMessage::Type::Continue:
+      case MidiMessage::Type::Stop:
+      {
+        onClock({message->getType()});
+        break;
+      }
       case MidiMessage::Type::SysEx: {
         if (message->data()[1] == 0x7E) {
           onUSysExNonRT({std::move(message->_data())});
@@ -709,6 +775,10 @@ public:
   //! \param msg_   The PitchBend message
   virtual void onPitchBend(PitchBend msg_) {}
 
+  //! The callback function invoked when a MIDI beat clock message is received
+  //! \param msg_   The Clock message
+  virtual void onClock(Clock msg_) {}
+
   //! The callback function invoked when a non-universal SysEx message is
   //! received
   //! \param msg_   The SysEx message
@@ -739,6 +809,10 @@ private:
       MidiMessage::Channel channel =
           static_cast<MidiMessage::Channel>(status & 0x0F);
 
+#define M_CHANNEL_MSG_0(idMsg)                                                 \
+  case MidiMessage::Type::idMsg:                                               \
+    return length > 0 ? std::unique_ptr<idMsg>(new idMsg)                      \
+                      : nullptr;
 #define M_CHANNEL_MSG_2(idMsg)                                                 \
   case MidiMessage::Type::idMsg:                                               \
     return length > 1 ? std::unique_ptr<idMsg>(new idMsg(channel, data_[1]))   \
@@ -771,12 +845,29 @@ private:
         return nullptr;
       }
       switch (type) {
-      case MidiMessage::Type::SysEx: {
+      case MidiMessage::Type::SysEx:
+      {
         if ((length > 2 && data_[1] < 0x7E) ||
             (length > 4 && data_[1] == 0x7E) ||
             (length > 5 && data_[1] == 0x7F)) {
           return std::unique_ptr<SysEx>(new SysEx(data_));
         }
+      }
+      case MidiMessage::Type::TimingClock:
+      {
+        return std::unique_ptr<MidiMessage>(new MidiMessageBase<MidiMessage::Type::TimingClock>(tRawData()));
+      }
+      case MidiMessage::Type::Start:
+      {
+        return std::unique_ptr<MidiMessage>(new MidiMessageBase<MidiMessage::Type::Start>(tRawData()));
+      }
+      case MidiMessage::Type::Continue:
+      {
+        return std::unique_ptr<MidiMessage>(new MidiMessageBase<MidiMessage::Type::Continue>(tRawData()));
+      }
+      case MidiMessage::Type::Stop:
+      {
+        return std::unique_ptr<MidiMessage>(new MidiMessageBase<MidiMessage::Type::Stop>(tRawData()));
       }
       default:
         return nullptr;
