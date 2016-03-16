@@ -5,7 +5,7 @@
         ##      ##
 ##########      ############################################################# shaduzlabs.com #######
 
-cmake_minimum_required (VERSION 2.8.0)
+cmake_minimum_required (VERSION 3.1)
 project(unMIDIfy)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
@@ -29,14 +29,14 @@ option(UNMIDIFY_DOCS  "Build unMIDIfy docs"  ${IS_UNMIDIFY})
 
 # Library --------------------------------------------------------------------------------------- #
 
-add_library(HEADER_ONLY_TARGET STATIC include/unMIDIfy.hpp)
-set_target_properties(HEADER_ONLY_TARGET PROPERTIES LINKER_LANGUAGE CXX)
+add_library(unMIDIfy INTERFACE)
+target_sources(unMIDIfy INTERFACE include/unMIDIfy.hpp) 
 set(UNMIDIFY_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 # Unit tests ------------------------------------------------------------------------------------- #
 
 if(UNMIDIFY_TEST)
-  enable_testing()
+  message(STATUS "Unit test project enabled")
   add_subdirectory(test)
 endif()
 
