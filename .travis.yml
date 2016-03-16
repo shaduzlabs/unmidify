@@ -1,5 +1,13 @@
 language: cpp
 
+addons:
+  apt:
+    sources:
+      - george-edison55-precise-backports # cmake 3.2.3 / doxygen 1.8.3
+    packages:
+      - cmake
+      - cmake-data
+
 branches:
   only:
     - master
@@ -9,9 +17,6 @@ compiler:
   - gcc
 
 before_script:
-  - sudo add-apt-repository --yes ppa:george-edison55/precise-backports
-  - sudo apt-get update
-  - sudo apt-get install -qq cmake
   - mkdir build
   - cd build
   - cmake ..
