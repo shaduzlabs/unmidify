@@ -1,0 +1,17 @@
+language: cpp
+
+compiler:
+  - gcc
+
+before_script:
+  - mkdir build
+  - cd build
+  - cmake ..
+
+script:
+  - make check
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change
