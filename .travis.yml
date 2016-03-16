@@ -7,7 +7,6 @@ matrix:
       sudo: required
     - os: osx
       osx_image: xcode7.0
-
     - compiler: gcc
       addons:
         coverity_scan:
@@ -27,7 +26,6 @@ matrix:
         - COMPILER=g++-4.9
         global:
           - secure: "fzcPJLIK8JqmE7tnIkgZbl4I9nGmcN89PhI2IpBn1CGbwQfh4DQthIuKJHdyWZWHwZkx94WH31mDnvEXxPDumCwgFaTxp/YR8hIsA6cp0nWF2XmGCdksH9ON1EF9WO16J1t7XspHMAebiEm+d8tjXizJM6TYA+YhdejcAr09chNootEO1OTxhKoptZtNZUTAG5yeOvPZSAPUqVByKpV8roYnfYbSs4t1v15XeIj7J4WYHjy0Nvaq6xWfgxw7bkuLIVFPtLrzjfEi1lvuowFqSa0VqgXePhODpKM1EItdjDlxqS9cpA9P8EJFK3X/V9Wy56V6oSWfyJivM1AmJ5Ra/3ERsKTmfLV/+ZSPqobRPOxd6FC+KyPIXvcNz8ItVrY1Llu9oEKygQuZ/X5ax0WTOu0j1dzMqTNijh8+7VU2ajvD1sA13IXF3sJz1zsEhDqIvJcpOKO/4MlJIViOSVk/QISgfslquEkCUGj8dmCWo1T2YyR1jNANF8Ihqh/wPokvGQPENcV2N+zlLnX6Ca/qi72JPfaXLKWH+JdT7dTjDqBXXV/yppHU8HrJYtTJfuB81SpsbJge+nSpcpXH7/u+D9NF9KF7KMP1GcBtRpOGRNhIKsXbBEWQ3or5cfBDGGJnsfpUEFxGTFD5Z690OjLIiNoXPbdt8T2Vha5cC/hmRMs="
-
     - compiler: gcc
       addons:
         coverity_scan:
@@ -67,6 +65,7 @@ matrix:
 #      env: COMPILER=clang++-3.7
 
 before_install:
+
   - WGET="travis_retry wget --no-check-certificate --continue --tries=20 --waitretry=10 --retry-connrefused --no-dns-cache --timeout 300"
   - sudo apt-get update -qq
 
