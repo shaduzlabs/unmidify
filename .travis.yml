@@ -4,6 +4,14 @@ dist: precise
 
 language: cpp
 
+apt:
+  sources:
+    - george-edison55-precise-backports # cmake 3.2.3 / doxygen 1.8.3
+  packages:
+    - cmake
+    - cmake-data
+    - doxygen
+
 matrix:
   include:
     - compiler: gcc
@@ -11,24 +19,16 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - george-edison55-precise-backports # cmake 3.2.3 / doxygen 1.8.3
           packages:
             - g++-4.9
-            - cmake
-            - cmake-data
-            - doxygen
       env: COMPILER=g++-4.9
     - compiler: gcc
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - george-edison55-precise-backports # cmake 3.2.3 / doxygen 1.8.3
           packages:
             - g++-5
-            - cmake
-            - cmake-data
-            - doxygen
       env: COMPILER=g++-5
     - compiler: clang
       addons:
@@ -36,12 +36,9 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
-            - george-edison55-precise-backports # cmake 3.2.3 / doxygen 1.8.3
           packages:
             - clang-3.6
-            - cmake
-            - cmake-data
-            - doxygen
+            - libc++-dev
       env: COMPILER=clang++-3.6
     - compiler: clang
       addons:
@@ -49,12 +46,9 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.7
-            - george-edison55-precise-backports # cmake 3.2.3 / doxygen 1.8.3
           packages:
             - clang-3.7
-            - cmake
-            - cmake-data
-            - doxygen
+            - libc++-dev
       env: COMPILER=clang++-3.7
 
 before_install:
