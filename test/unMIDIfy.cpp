@@ -23,7 +23,7 @@ public:
   void onNoteOff(NoteOff msg_) override
   {
     CHECK(msg_.getType() == MidiMessage::Type::NoteOff);
-    MidiNote note(MidiNote::Name::CSharp, 5);
+    MidiNote note(MidiNote::Name::CSharp, 8);
     CHECK(note == msg_.getNote());
     CHECK(0x41 == msg_.getVelocity());
     CHECK(3 == msg_.data().size());
@@ -32,7 +32,7 @@ public:
   void onNoteOn(NoteOn msg_) override
   {
     CHECK(msg_.getType() == MidiMessage::Type::NoteOn);
-    MidiNote note(MidiNote::Name::D, 5);
+    MidiNote note(MidiNote::Name::D, 8);
     CHECK(note == msg_.getNote());
     CHECK(0x42 == msg_.getVelocity());
     CHECK(3 == msg_.data().size());

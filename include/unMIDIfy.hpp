@@ -72,7 +72,7 @@ public:
    \param note_  The Midi note
    \param octave_  The octave
    */
-  MidiNote(Name note_, int8_t octave_)
+  MidiNote(Name note_, uint8_t octave_)
     : m_note(note_), m_octave(std::min<uint8_t>(10, std::max<uint8_t>(0, octave_)))
   {
   }
@@ -110,6 +110,10 @@ public:
   //! \return The value of the note in the range [0-127]
   uint8_t getValue()
   {
+    if (m_octave >= 10)
+    {
+      return M_UINT8(m_octave * 12) + std::min<uint8_t>(7, M_UINT8(m_note));
+    }
     return M_UINT8((m_octave * 12) + M_UINT8(m_note));
   }
 
