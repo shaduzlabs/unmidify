@@ -1,11 +1,13 @@
-sudo: required
-
-dist: precise
-
 language: cpp
 
 matrix:
   include:
+    - os: linux
+      dist: precise
+      sudo: required
+    - os: osx
+      osx_image: xcode7.0
+
     - compiler: gcc
       addons:
         coverity_scan:
