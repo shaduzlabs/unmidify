@@ -79,7 +79,7 @@ install:
 script:
   - mkdir build
   - cd build
-  - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make check
+  - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make -j2 check
 
 branches:
   only:
@@ -98,8 +98,8 @@ addons:
       description: "Build submitted via Travis CI"
     notification_email: shaduz@shaduzlabs.com
     build_command_prepend: "make clean"
-    build_command:   "make -j 4 check"
-    branch_pattern: coverity_scan
+    build_command:   "make -j2 check"
+    branch_pattern: master
 
 notifications:
   email:
