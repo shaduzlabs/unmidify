@@ -42,7 +42,7 @@ matrix:
       env: COMPILER=clang++-3.7
 
 before_install:
-  - WGET="travis_retry wget --continue --tries=20 --waitretry=10 --retry-connrefused --no-dns-cache --timeout 300"
+  - WGET="travis_retry wget --no-check-certificate --continue --tries=20 --waitretry=10 --retry-connrefused --no-dns-cache --timeout 300"
   - sudo apt-get update -qq
 
 install:
