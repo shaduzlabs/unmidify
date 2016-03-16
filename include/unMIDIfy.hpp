@@ -73,7 +73,7 @@ public:
    \param octave_  The octave
    */
   MidiNote(Name note_, int8_t octave_)
-    : m_note(note_), m_octave(std::min<int8_t>(9, std::max<int8_t>(-1, octave_)))
+    : m_note(note_), m_octave(std::min<uint8_t>(10, std::max<uint8_t>(0, octave_)))
   {
   }
 
@@ -81,8 +81,8 @@ public:
   //! \param note_  The Midi note number in the range [0-127]
   MidiNote(uint8_t note_)
   {
-    m_octave = static_cast<int8_t>(M_MIDI_BYTE(note_) / 12) - 2;
-    m_note = static_cast<Name>(note_ % 12);
+    m_octave = static_cast<uint8_t>(M_MIDI_BYTE(note_) / 12U);
+    m_note = static_cast<Name>(note_ % 12U);
   }
 
   //! Comparison (equality)
@@ -110,12 +110,19 @@ public:
   //! \return The value of the note in the range [0-127]
   uint8_t getValue()
   {
-    return M_UINT8((m_octave + 1) * 12 + M_UINT8(m_note));
+    return M_UINT8((m_octave * 12) + M_UINT8(m_note));
+  }
+
+  //! Get the octave of the midi note
+  //! \return The value of the octave in the range [0-10]
+  uint8_t getOctave()
+  {
+    return m_octave;
   }
 
 private:
   Name m_note;
-  int8_t m_octave;
+  uint8_t m_octave;
 };
 
 /**
@@ -159,23 +166,23 @@ public:
   //! The Midi channels
   enum class Channel : uint8_t
   {
-    Ch1,
-    Ch2,
-    Ch3,
-    Ch4,
-    Ch5,
-    Ch6,
-    Ch7,
-    Ch8,
-    Ch9,
-    Ch10,
-    Ch11,
-    Ch12,
-    Ch13,
-    Ch14,
-    Ch15,
-    Ch16,
-    Undefined,
+    Ch1,       //!<  Channel 1
+    Ch2,       //!<  Channel 2
+    Ch3,       //!<  Channel 3
+    Ch4,       //!<  Channel 4
+    Ch5,       //!<  Channel 5
+    Ch6,       //!<  Channel 6
+    Ch7,       //!<  Channel 7
+    Ch8,       //!<  Channel 8
+    Ch9,       //!<  Channel 9
+    Ch10,      //!<  Channel 10
+    Ch11,      //!<  Channel 11
+    Ch12,      //!<  Channel 12
+    Ch13,      //!<  Channel 13
+    Ch14,      //!<  Channel 14
+    Ch15,      //!<  Channel 15
+    Ch16,      //!<  Channel 16
+    Undefined, //!<  Undefined/Unknown
   };
 
   //! Constructor
