@@ -30,7 +30,7 @@ option(UNMIDIFY_DOCS  "Build unMIDIfy docs"  ${IS_UNMIDIFY})
 # Library --------------------------------------------------------------------------------------- #
 
 add_library(unMIDIfy INTERFACE)
-target_sources(unMIDIfy INTERFACE include/unMIDIfy.hpp) 
+target_sources(unMIDIfy INTERFACE include/unMIDIfy.hpp)
 set(UNMIDIFY_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 # Unit tests ------------------------------------------------------------------------------------- #
@@ -69,7 +69,7 @@ if(UNMIDIFY_DOCS)
         VERBATIM
     )
   else()
-    message(FATAL_ERROR "Doxygen is needed to build the documentation.")
+    message(STATUS "Doxygen is needed to build the documentation.")
   endif(DOXYGEN_FOUND)
 endif(UNMIDIFY_DOCS)
 
