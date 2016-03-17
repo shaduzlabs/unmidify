@@ -125,6 +125,7 @@ install:
       CMAKE_EXECUTABLE=${DEPS_DIR}/cmake/bin/cmake
     else
       brew install cmake
+      CMAKE_EXECUTABLE=cmake
     fi
 
   ############################################################################
@@ -148,7 +149,7 @@ install:
   # Install libc++ and libc++abi (on Linux only; Xcode uses libc++ by default)
   ############################################################################
   - |
-    if [[ "${TRAVIS_OS_NAME}" == "linux" && "${COMPILER}" =~ clang\+\+-3\.[5678] ]]; then
+    if [[ "${TRAVIS_OS_NAME}" == "linux" && "${COMPILER}" =~ clang ]]; then
       if   [[ "${COMPILER}" == "clang++-3.5" ]]; then LLVM_VERSION="3.5.2"
       elif [[ "${COMPILER}" == "clang++-3.6" ]]; then LLVM_VERSION="3.6.2";
       elif [[ "${COMPILER}" == "clang++-3.7" ]]; then LLVM_VERSION="3.7.0";
