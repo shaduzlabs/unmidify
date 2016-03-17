@@ -4,9 +4,9 @@ compiler:
   - gcc
   - clang
 
-#os:
-#  - linux
-#  - osx
+os:
+  - linux
+  - osx
 
 env:
   global:
@@ -23,8 +23,8 @@ addons:
       name: "shaduzlabs/unmidify"
       description: "Build submitted via Travis CI"
     notification_email: shaduz@shaduzlabs.com
-    build_command_prepend: "make clean"
-    build_command:   "make -j2 check"
+#    build_command_prepend: "make clean"
+    build_command:   "make -j2"
     branch_pattern: master
 
 script: cmake . && make -j2 check
