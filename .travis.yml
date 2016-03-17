@@ -135,17 +135,14 @@ before_script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then tar -xzf doxygen.tar.gz -C $HOME; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export PATH=$HOME/doxygen-1.8.9.1.linux.bin/bin:$PATH; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install cmake python gcc doxygen; fi
-  - cd ${TRAVIS_BUILD_DIR}
   - export CXX=${CXX_COMPILER}
   - export CC=${C_COMPILER}
   - export FC=${Fortran_COMPILER}
   - export PATH=$HOME/.local/bin:/usr/local/bin:/usr/bin:$PATH
-  - git submodule init
-  - git submodule update --init --recursive
+
+script:
+  - cd ${TRAVIS_BUILD_DIR}
   - mkdir build
   - cd build
   - CXX=${CXX_COMPILER} CC=${C_COMPILER} FC=${Fortran_COMPILER} cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
-
-script:
-  - make -j 2
-  - ctest -V -j 2
+  - make -j 2 check
