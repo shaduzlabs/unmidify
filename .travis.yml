@@ -31,6 +31,9 @@ script: cmake . && make -j2 check
 
 # source: https://github.com/OpenLightingProject/ola/blob/master/.travis.yml
 before_install:
+
+  - WGET="travis_retry wget --no-check-certificate --continue --tries=20 --waitretry=10 --retry-connrefused --no-dns-cache --timeout 300"
+
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo add-apt-repository ppa:h-rayflood/gcc-upper -y
   - sudo add-apt-repository "deb http://llvm.org/apt/precise/ llvm-toolchain-precise main" -y
