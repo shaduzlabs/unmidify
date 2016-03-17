@@ -54,6 +54,18 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install libboost-thread-dev libboost-system-dev
 
+install:
+  # CMake 3.2.1
+  - CMAKE_URL=https://cmake.org/files/v3.2/cmake-3.2.1-Linux-x86_64.tar.gz
+  - mkdir cmake
+  - $WGET -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+  - export PATH=${PWD}/cmake/bin:${PATH}
+
+  # Doxygen 1.8.9.1
+  - DOXYGEN_URL="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.9.1.linux.bin.tar.gz"
+  - mkdir doxygen && travis_retry wget --quiet -O - ${DOXYGEN_URL} | tar --strip-components=1 -xz -C doxygen
+  - export PATH=${PWD}/doxygen/bin:${PATH}
+
 notifications:
   email:
     on_success: change
