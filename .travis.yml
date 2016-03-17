@@ -131,20 +131,10 @@ before_script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget --no-check-certificate http://www.cmake.org/files/v3.3/cmake-3.3.2-Linux-x86_64.tar.gz -O cmake.tar.gz; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then tar -xzf cmake.tar.gz -C $HOME; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export PATH=$HOME/cmake-3.3.2-Linux-x86_64/bin:$PATH; fi
-install:
-  - DEPS_DIR="${PWD}/deps"
-  - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
-  - |
-    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
-      DOXYGEN_URL="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.9.1.linux.bin.tar.gz"
-      mkdir doxygen
-      travis_retry wget --quiet -O - ${DOXYGEN_URL} | tar --strip-components=1 -xz -C doxygen
-      export PATH=${DEPS_DIR}/doxygen/bin:${PATH}
-    elif [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
-      brew install cmake python gcc doxygen
-    fi
-
-before_script:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget --no-check-certificate http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.9.1.linux.bin.tar.gz -O doxygen.tar.gz; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then tar -xzf doxygen.tar.gz -C $HOME; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export PATH=$HOME/doxygen-1.8.9.1.linux.bin/bin:$PATH; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install cmake python gcc doxygen; fi
   - cd ${TRAVIS_BUILD_DIR}
   - export CXX=${CXX_COMPILER}
   - export CC=${C_COMPILER}
