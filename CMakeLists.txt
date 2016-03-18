@@ -6,36 +6,36 @@
 ##########      ############################################################# shaduzlabs.com #######
 
 cmake_minimum_required (VERSION 3.1)
-project(unMIDIfy)
+project(unmidify)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
 include(sl-main)
 
 # The version number.
-set (UNMIDIFY_VER_MAJOR  0)
-set (UNMIDIFY_VER_MINOR  1)
-set (UNMIDIFY_VER_MICRO  0)
-set (UNMIDIFY_VER_STRING ${UNMIDIFY_VER_MAJOR}.${UNMIDIFY_VER_MINOR}.${UNMIDIFY_VER_MICRO})
+set (unmidify_VER_MAJOR  0)
+set (unmidify_VER_MINOR  1)
+set (unmidify_VER_MICRO  0)
+set (unmidify_VER_STRING ${unmidify_VER_MAJOR}.${unmidify_VER_MINOR}.${unmidify_VER_MICRO})
 
-if(CMAKE_PROJECT_NAME STREQUAL unMIDIfy)
-  set(IS_UNMIDIFY TRUE)
+if(CMAKE_PROJECT_NAME STREQUAL unmidify)
+  set(IS_unmidify TRUE)
 else()
-  set(IS_UNMIDIFY FALSE)
+  set(IS_unmidify FALSE)
 endif()
 
-option(UNMIDIFY_TEST  "Build unMIDIfy tests" ${IS_UNMIDIFY})
-option(UNMIDIFY_DOCS  "Build unMIDIfy docs"  ${IS_UNMIDIFY})
+option(unmidify_TEST  "Build unmidify tests" ${IS_unmidify})
+option(unmidify_DOCS  "Build unmidify docs"  ${IS_unmidify})
 
 
 # Library --------------------------------------------------------------------------------------- #
 
-add_library(unMIDIfy INTERFACE)
-target_sources(unMIDIfy INTERFACE include/unMIDIfy.hpp)
-set(UNMIDIFY_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
+add_library(unmidify INTERFACE)
+target_sources(unmidify INTERFACE include/unmidify.hpp)
+set(unmidify_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 # Unit tests ------------------------------------------------------------------------------------- #
 
-if(UNMIDIFY_TEST)
+if(unmidify_TEST)
   message(STATUS "Unit test project enabled")
   add_subdirectory(test)
 endif()
@@ -43,7 +43,7 @@ endif()
 
 # Documentation (doxygen) ------------------------------------------------------------------------ #
 
-if(UNMIDIFY_DOCS)
+if(unmidify_DOCS)
   find_package(Doxygen)
     if(DOXYGEN_FOUND)
 
@@ -57,7 +57,7 @@ if(UNMIDIFY_DOCS)
 
     set( doxy_html_root       ${PROJECT_SOURCE_DIR}/support/doxygen                   )
 
-    set( doxy_project_version "v. ${UNMIDIFY_VER_MAJOR}.${UNMIDIFY_VER_MINOR}.${UNMIDIFY_VER_MICRO}")
+    set( doxy_project_version "v. ${unmidify_VER_MAJOR}.${unmidify_VER_MINOR}.${unmidify_VER_MICRO}")
 
     configure_file( ${doxyfile_in} ${doxyfile} @ONLY )
 
@@ -71,7 +71,7 @@ if(UNMIDIFY_DOCS)
   else()
     message(STATUS "Doxygen is needed to build the documentation.")
   endif(DOXYGEN_FOUND)
-endif(UNMIDIFY_DOCS)
+endif(unmidify_DOCS)
 
 
 # Examples --------------------------------------------------------------------------------------- #

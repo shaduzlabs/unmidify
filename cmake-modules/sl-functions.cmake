@@ -18,25 +18,24 @@ function (checkout_external_project target repository tag)
 
     #generate false dependency project
     set(CMAKE_LIST_CONTENT "
-      cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8)
 
-      include(ExternalProject)
-      ExternalProject_add(
-        ${target}
-        PREFIX ${CMAKE_BINARY_DIR}/${target}
-        GIT_REPOSITORY ${repository}
-        GIT_TAG ${tag}
-        CONFIGURE_COMMAND echo \"\"
-        BUILD_COMMAND echo \"\"
-        INSTALL_COMMAND echo \"\"
-        LOG_DOWNLOAD ON
-        LOG_INSTALL ON
-        CMAKE_ARGS ${ARGN}
-        INSTALL_COMMAND \"\"
-      )
+include(ExternalProject)
+ExternalProject_add(
+  ${target}
+  PREFIX ${CMAKE_BINARY_DIR}/${target}
+  GIT_REPOSITORY ${repository}
+  GIT_TAG ${tag}
+  CONFIGURE_COMMAND echo \"\"
+  BUILD_COMMAND echo \"\"
+  LOG_DOWNLOAD ON
+  LOG_INSTALL ON
+  CMAKE_ARGS ${ARGN}
+  INSTALL_COMMAND \"\"
+)
 
-      add_custom_target(trigger_${target})
-      add_dependencies(trigger_${target} ${target})"
+add_custom_target(trigger_${target})
+add_dependencies(trigger_${target} ${target})"
     )
 
     file(WRITE ${trigger_build_dir}/CMakeLists.txt "${CMAKE_LIST_CONTENT}")
