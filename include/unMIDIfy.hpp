@@ -211,7 +211,7 @@ protected:
   virtual tRawData& _data() = 0;
 
 private:
-  friend class Unmidifier;
+  friend class Unmidify;
   Type m_type;
 };
 
@@ -833,11 +833,11 @@ private:
 */
 
 /**
-  \class Unmidifier
+  \class Unmidify
   \brief A general purpose MIDI message listener class
 */
 
-class Unmidifier
+class Unmidify
 {
 public:
   static void process(double timeStamp_, std::vector<unsigned char>* pMessage_, void* pUserData_)
@@ -847,11 +847,11 @@ public:
       return;
     }
 
-    Unmidifier* pSelf = static_cast<Unmidifier*>(pUserData_);
+    Unmidify* pSelf = static_cast<Unmidify*>(pUserData_);
     pSelf->process({pMessage_->begin(), pMessage_->end()});
   }
 
-  virtual ~Unmidifier()
+  virtual ~Unmidify()
   {
   }
 

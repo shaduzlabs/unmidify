@@ -6,7 +6,7 @@
 ##########      ############################################################# shaduzlabs.com #####*/
 
 #include <catch.hpp>
-#include <unMIDIfy.hpp>
+#include <unmidify.hpp>
 
 using namespace std::placeholders;
 
@@ -17,7 +17,7 @@ namespace midi
 namespace test
 {
 
-class TestMidiListenerCallbacks : public Unmidifier
+class TestMidiListenerCallbacks : public Unmidifiy
 {
 public:
   void onNoteOff(NoteOff msg_) override

@@ -20,7 +20,7 @@ addCatch()
 set(
   test_SRCS
     main.cpp
-    unMIDIfy.cpp
+    unmidify.cpp
 )
 
 source_group("src"  FILES  ${test_SRCS})

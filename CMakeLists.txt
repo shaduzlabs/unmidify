@@ -15,27 +15,27 @@ include(sl-main)
 set (unmidify_VER_MAJOR  0)
 set (unmidify_VER_MINOR  1)
 set (unmidify_VER_MICRO  0)
-set (unmidify_VER_STRING ${unmidify_VER_MAJOR}.${unmidify_VER_MINOR}.${unmidify_VER_MICRO})
+set (unmidify_VER_STRING ${UNMIDIFY_VER_MAJOR}.${UNMIDIFY_VER_MINOR}.${UNMIDIFY_VER_MICRO})
 
 if(CMAKE_PROJECT_NAME STREQUAL unmidify)
-  set(IS_unmidify TRUE)
+  set(IS_UNMIDIFY TRUE)
 else()
-  set(IS_unmidify FALSE)
+  set(IS_UNMIDIFY FALSE)
 endif()
 
-option(unmidify_TEST  "Build unmidify tests" ${IS_unmidify})
-option(unmidify_DOCS  "Build unmidify docs"  ${IS_unmidify})
+option(UNMIDIFY_TEST  "Build unmidify tests" ${IS_UNMIDIFY})
+option(UNMIDIFY_DOCS  "Build unmidify docs"  ${IS_UNMIDIFY})
 
 
 # Library --------------------------------------------------------------------------------------- #
 
 add_library(unmidify INTERFACE)
 target_sources(unmidify INTERFACE include/unmidify.hpp)
-set(unmidify_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
+set(UNMIDIFY_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 # Unit tests ------------------------------------------------------------------------------------- #
 
-if(unmidify_TEST)
+if(UNMIDIFY_TEST)
   message(STATUS "Unit test project enabled")
   add_subdirectory(test)
 endif()
@@ -43,7 +43,7 @@ endif()
 
 # Documentation (doxygen) ------------------------------------------------------------------------ #
 
-if(unmidify_DOCS)
+if(UNMIDIFY_DOCS)
   find_package(Doxygen)
     if(DOXYGEN_FOUND)
 
@@ -57,7 +57,7 @@ if(unmidify_DOCS)
 
     set( doxy_html_root       ${PROJECT_SOURCE_DIR}/support/doxygen                   )
 
-    set( doxy_project_version "v. ${unmidify_VER_MAJOR}.${unmidify_VER_MINOR}.${unmidify_VER_MICRO}")
+    set( doxy_project_version "v. ${UNMIDIFY_VER_MAJOR}.${UNMIDIFY_VER_MINOR}.${UNMIDIFY_VER_MICRO}")
 
     configure_file( ${doxyfile_in} ${doxyfile} @ONLY )
 
@@ -71,7 +71,7 @@ if(unmidify_DOCS)
   else()
     message(STATUS "Doxygen is needed to build the documentation.")
   endif(DOXYGEN_FOUND)
-endif(unmidify_DOCS)
+endif(UNMIDIFY_DOCS)
 
 
 # Examples --------------------------------------------------------------------------------------- #
