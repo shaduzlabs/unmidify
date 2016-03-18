@@ -17,7 +17,7 @@ namespace midi
 namespace test
 {
 
-class TestMidiListenerCallbacks : public Unmidifiy
+class TestMidiListenerCallbacks : public Unmidify
 {
 public:
   void onNoteOff(NoteOff msg_) override

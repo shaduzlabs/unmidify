@@ -1,8 +1,8 @@
 /*
-        ##########    Copyright (C) 2015 Vincenzo Pacella
-        ##      ##    Distributed under MIT license, see file LICENSE
-        ##      ##    or <http://opensource.org/licenses/MIT>
-        ##      ##
+##########    Copyright (C) 2015 Vincenzo Pacella
+##      ##    Distributed under MIT license, see file LICENSE
+##      ##    or <http://opensource.org/licenses/MIT>
+##      ##
 ##########      ############################################################# shaduzlabs.com #####*/
 
 #pragma once
@@ -38,8 +38,8 @@ using tRawData = std::vector<uint8_t>;
 */
 
 /**
-  \class MidiNote
-  \brief Class representing a single midi note
+\class MidiNote
+\brief Class representing a single midi note
 */
 
 class MidiNote
@@ -69,9 +69,9 @@ public:
 
   //! Constructor
   /*!
-   \param note_  The Midi note
-   \param octave_  The octave
-   */
+			\param note_  The Midi note
+			\param octave_  The octave
+			*/
   MidiNote(Name note_, uint8_t octave_)
     : m_note(note_), m_octave(std::min<uint8_t>(10, std::max<uint8_t>(0, octave_)))
   {
@@ -130,11 +130,11 @@ private:
 };
 
 /**
-  \class MidiMessage
-  \brief
+\class MidiMessage
+\brief
 
-  Full MIDI messages specification:
-  http://www.midi.org/techspecs/midimessages.php
+Full MIDI messages specification:
+http://www.midi.org/techspecs/midimessages.php
 */
 class MidiMessage
 {
@@ -191,8 +191,8 @@ public:
 
   //! Constructor
   /*!
-   \param type_  The MidiMessage type
-   */
+			\param type_  The MidiMessage type
+			*/
   MidiMessage(Type type_) : m_type(type_)
   {
   }
@@ -218,8 +218,8 @@ private:
 //--------------------------------------------------------------------------------------------------
 
 /**
-  \class MidiMessage
-  \brief Class representing a MIDI message
+\class MidiMessage
+\brief Class representing a MIDI message
 
 */
 
@@ -229,17 +229,17 @@ class MidiMessageBase : public midi::MidiMessage
 public:
   //! Constructor
   /*!
-   \param data_ The raw message data
-  */
+			\param data_ The raw message data
+			*/
   MidiMessageBase(tRawData data_) : midi::MidiMessage(MsgType), m_data(std::move(data_))
   {
   }
 
   //! Constructor
   /*!
-   \param header_ The raw message header
-   \param data_   The raw message data
-  */
+			\param header_ The raw message header
+			\param data_   The raw message data
+			*/
   MidiMessageBase(const tRawData& header_, const tRawData& data_)
     : midi::MidiMessage(MsgType), m_data(header_)
   {
@@ -248,9 +248,9 @@ public:
 
   //! Constructor
   /*!
-   \param channel_  The MIDI channel
-   \param data_     The raw message data
-  */
+			\param channel_  The MIDI channel
+			\param data_     The raw message data
+			*/
   MidiMessageBase(MidiMessage::Channel channel_, const tRawData& data_)
     : midi::MidiMessage(MsgType), m_data{M_UINT8((M_UINT8(channel_) | M_UINT8(getType())))}
   {
@@ -305,8 +305,8 @@ private:
 */
 
 /**
-  \class NoteOff
-  \brief A NoteOff MIDI message
+\class NoteOff
+\brief A NoteOff MIDI message
 */
 
 class NoteOff : public midi::MidiMessageBase<midi::MidiMessage::Type::NoteOff>
@@ -320,10 +320,10 @@ public:
 
   //! Constructor from channel, note and velocity
   /*!
-      \param channel_   The channel
-      \param note_      The midi note in the range [0-127]
-      \param velocity_  The velocity in the range [0-127]
-  */
+			\param channel_   The channel
+			\param note_      The midi note in the range [0-127]
+			\param velocity_  The velocity in the range [0-127]
+			*/
   NoteOff(MidiMessage::Channel channel_, uint8_t note_, uint8_t velocity_ = 0)
     : MidiMessageBase(channel_, {M_MIDI_BYTE(note_), M_MIDI_BYTE(velocity_)})
   {
@@ -343,8 +343,8 @@ public:
 //--------------------------------------------------------------------------------------------------
 
 /**
-  \class NoteOn
-  \brief A NoteOn MIDI message
+\class NoteOn
+\brief A NoteOn MIDI message
 */
 
 class NoteOn : public midi::MidiMessageBase<midi::MidiMessage::Type::NoteOn>
@@ -358,10 +358,10 @@ public:
 
   //! Constructor from channel, note and velocity
   /*!
-      \param channel_   The channel
-      \param note_      The midi note in the range [0-127]
-      \param velocity_  The velocity in the range [0-127]
-  */
+			\param channel_   The channel
+			\param note_      The midi note in the range [0-127]
+			\param velocity_  The velocity in the range [0-127]
+			*/
   NoteOn(MidiMessage::Channel channel_, uint8_t note_, uint8_t velocity_)
     : MidiMessageBase(channel_, {M_MIDI_BYTE(note_), M_MIDI_BYTE(velocity_)})
   {
@@ -381,8 +381,8 @@ public:
 //--------------------------------------------------------------------------------------------------
 
 /**
-  \class PolyPressure
-  \brief A PolyPressure MIDI message
+\class PolyPressure
+\brief A PolyPressure MIDI message
 */
 
 class PolyPressure : public midi::MidiMessageBase<midi::MidiMessage::Type::PolyPressure>
@@ -396,10 +396,10 @@ public:
 
   //! Constructor from channel, note and pressure value
   /*!
-      \param channel_   The channel
-      \param note_      The midi note in the range [0-127]
-      \param pressure_  The pressure value in the range [0-127]
-  */
+			\param channel_   The channel
+			\param note_      The midi note in the range [0-127]
+			\param pressure_  The pressure value in the range [0-127]
+			*/
   PolyPressure(MidiMessage::Channel channel_, uint8_t note_, uint8_t pressure_)
     : MidiMessageBase(channel_, {M_MIDI_BYTE(note_), M_MIDI_BYTE(pressure_)})
   {
@@ -419,8 +419,8 @@ public:
 //--------------------------------------------------------------------------------------------------
 
 /**
-  \class ControlChange
-  \brief A ControlChange MIDI message
+\class ControlChange
+\brief A ControlChange MIDI message
 */
 
 class ControlChange : public midi::MidiMessageBase<midi::MidiMessage::Type::ControlChange>
@@ -434,10 +434,10 @@ public:
 
   //! Constructor from channel, controller number and controller value
   /*!
-      \param channel_  The channel
-      \param control_  The controller number in the range [0-127]
-      \param value_    The controller value in the range [0-127]
-  */
+			\param channel_  The channel
+			\param control_  The controller number in the range [0-127]
+			\param value_    The controller value in the range [0-127]
+			*/
   ControlChange(MidiMessage::Channel channel_, uint8_t control_, uint8_t value_)
     : MidiMessageBase(channel_, {M_MIDI_BYTE(control_), M_MIDI_BYTE(value_)})
   {
@@ -457,8 +457,8 @@ public:
 //--------------------------------------------------------------------------------------------------
 
 /**
-  \class ProgramChange
-  \brief A ProgramChange MIDI message
+\class ProgramChange
+\brief A ProgramChange MIDI message
 */
 
 class ProgramChange : public midi::MidiMessageBase<midi::MidiMessage::Type::ProgramChange>
@@ -484,8 +484,8 @@ public:
 //--------------------------------------------------------------------------------------------------
 
 /**
-  \class ChannelPressure
-  \brief A ChannelPressure MIDI message
+\class ChannelPressure
+\brief A ChannelPressure MIDI message
 */
 
 class ChannelPressure : public midi::MidiMessageBase<midi::MidiMessage::Type::ChannelPressure>
@@ -511,8 +511,8 @@ public:
 //--------------------------------------------------------------------------------------------------
 
 /**
-  \class PitchBend
-  \brief A PitchBend MIDI message
+\class PitchBend
+\brief A PitchBend MIDI message
 */
 
 class PitchBend : public midi::MidiMessageBase<midi::MidiMessage::Type::PitchBend>
@@ -543,8 +543,8 @@ public:
 //--------------------------------------------------------------------------------------------------
 
 /**
-  \class Clock
-  \brief A MIDI beat clock message
+\class Clock
+\brief A MIDI beat clock message
 */
 
 class Clock : public midi::MidiMessageBase<midi::MidiMessage::Type::TimingClock>
@@ -552,11 +552,11 @@ class Clock : public midi::MidiMessageBase<midi::MidiMessage::Type::TimingClock>
 public:
   enum class Type : uint8_t
   {
-    Unknown,  //!< Unknown
-    Clock,    //!< Clock tick
-    Start,    //!< Start
-    Continue, //!< Continue
-    Stop,     //!< Stop
+    Unknown,   //!< Unknown
+    ClockTick, //!< Clock tick
+    Start,     //!< Start
+    Continue,  //!< Continue
+    Stop,      //!< Stop
   };
 
   Clock(MidiMessage::Type type_) : MidiMessageBase(tRawData())
@@ -565,7 +565,7 @@ public:
     {
       case MidiMessage::Type::TimingClock:
       {
-        m_type = Type::Clock;
+        m_type = Type::ClockTick;
         break;
       }
       case MidiMessage::Type::Start:
@@ -608,8 +608,8 @@ private:
 */
 
 /**
-  \class SysEx
-  \brief A SysEx MIDI message
+\class SysEx
+\brief A SysEx MIDI message
 */
 
 class SysEx : public midi::MidiMessageBase<midi::MidiMessage::Type::SysEx>
@@ -676,8 +676,8 @@ private:
 //--------------------------------------------------------------------------------------------------
 
 /**
-  \class USysExNonRT
-  \brief An Universal SysEx Non-RealTime MIDI message
+\class USysExNonRT
+\brief An Universal SysEx Non-RealTime MIDI message
 */
 
 class USysExNonRT : public SysEx
@@ -758,8 +758,8 @@ private:
 //--------------------------------------------------------------------------------------------------
 
 /**
-  \class USysExRT
-  \brief An Universal SysEx RealTime MIDI message
+\class USysExRT
+\brief An Universal SysEx RealTime MIDI message
 */
 
 class USysExRT : public SysEx
@@ -833,8 +833,8 @@ private:
 */
 
 /**
-  \class Unmidify
-  \brief A general purpose MIDI message listener class
+\class Unmidify
+\brief A general purpose MIDI message listener class
 */
 
 class Unmidify
