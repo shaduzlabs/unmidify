@@ -81,8 +81,7 @@ public:
   //! \param note_  The Midi note number in the range [0-127]
   MidiNote(uint8_t note_)
   {
-    m_octave = static_cast<uint8_t>(M_MIDI_BYTE(note_) / 12U);
-    m_note = static_cast<Name>(note_ % 12U);
+    setNoteValue(note_);
   }
 
   //! Comparison (equality)
@@ -106,15 +105,37 @@ public:
     m_note = note_;
   }
 
+  //! Set the Midi note
+  //! \param note_ The Midi note number in the range [0-127]
+  void setNoteValue(uint8_t note_)
+  {
+    m_octave = static_cast<uint8_t>(M_MIDI_BYTE(note_) / 12U);
+    m_note = static_cast<Name>(note_ % 12U);
+  }
+
+  //! Get the note
+  //! \return The note
+  Name getNote()
+  {
+    return m_note;
+  }
+
   //! Get the value of the midi note
   //! \return The value of the note in the range [0-127]
-  uint8_t getValue()
+  uint8_t getNoteValue()
   {
-    if (m_octave >= 10)
+    if (m_octave >= 10U)
     {
       return M_UINT8(m_octave * 12) + std::min<uint8_t>(7, M_UINT8(m_note));
     }
     return M_UINT8((m_octave * 12) + M_UINT8(m_note));
+  }
+
+  //! Set the octave
+  //! \param octave_ The octave in the range [0-10]
+  void setOctave(uint8_t octave_)
+  {
+    m_octave = octave_ > 10U ? 10U : octave_;
   }
 
   //! Get the octave of the midi note
@@ -230,7 +251,7 @@ public:
   //! Constructor
   /*!
 			\param data_ The raw message data
-			*/
+	*/
   MidiMessageBase(tRawData data_) : midi::MidiMessage(MsgType), m_data(std::move(data_))
   {
   }

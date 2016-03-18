@@ -78,7 +78,54 @@ public:
 
 //--------------------------------------------------------------------------------------------------
 
-TEST_CASE("Test MidiMessageListener callbacks", "[midi]")
+TEST_CASE("MidiNote comparison", "MidiNote")
+{
+  MidiNote noteC0_a{MidiNote::Name::C, 0};
+  MidiNote noteC0_b{0};
+
+  MidiNote noteA7_a{MidiNote::Name::A, 7};
+  MidiNote noteA7_b{93};
+
+  CHECK(noteC0_a == noteC0_b);
+  CHECK(noteC0_a != noteA7_a);
+  CHECK(noteA7_a == noteA7_b);
+}
+
+//--------------------------------------------------------------------------------------------------
+
+TEST_CASE("MidiNote getters and setters", "MidiNote")
+{
+  MidiNote note{MidiNote::Name::A, 7};
+  CHECK(MidiNote::Name::A == note.getNote());
+  CHECK(93 == note.getNoteValue());
+  CHECK(7 == note.getOctave());
+
+  note.setNote(MidiNote::Name::BFlat);
+  CHECK(MidiNote::Name::BFlat == note.getNote());
+  CHECK(106 == note.getNoteValue());
+  CHECK(8 == note.getOctave());
+
+  note.setNoteValue(13);
+  CHECK(MidiNote::Name::CSharp == note.getNote());
+  CHECK(13 == note.getNoteValue());
+  CHECK(1 == note.getOctave());
+
+  note.setOctave(8);
+  CHECK(MidiNote::Name::CSharp == note.getNote());
+  CHECK(97 == note.getNoteValue());
+  CHECK(8 == note.getOctave());
+}
+
+//--------------------------------------------------------------------------------------------------
+
+TEST_CASE("NoteOff message", "MidiMessage")
+{
+  // NoteOff();
+}
+
+//--------------------------------------------------------------------------------------------------
+
+TEST_CASE("MidiMessageListener callbacks", "[midi]")
 {
 
   TestMidiListenerCallbacks midiListener;
