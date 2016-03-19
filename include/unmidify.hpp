@@ -290,8 +290,8 @@ public:
   MidiMessage::Channel getChannel() const
   {
     return (m_data.size() == 0 || getType() < MidiMessage::Type::SysEx)
-             ? MidiMessage::Channel::Undefined
-             : static_cast<MidiMessage::Channel>(m_data[0] & 0x0F);
+             ? static_cast<MidiMessage::Channel>(m_data[0] & 0x0F)
+             : MidiMessage::Channel::Undefined;
   }
 
   bool operator==(const MidiMessageBase& other_) const
@@ -333,12 +333,6 @@ private:
 class NoteOff : public midi::MidiMessageBase<midi::MidiMessage::Type::NoteOff>
 {
 public:
-  //! Constructor from raw data
-  //! \param data_  The raw data
-  NoteOff(tRawData data_) : MidiMessageBase(std::move(data_))
-  {
-  }
-
   //! Constructor from channel, note and velocity
   /*!
 			\param channel_   The channel
@@ -371,12 +365,6 @@ public:
 class NoteOn : public midi::MidiMessageBase<midi::MidiMessage::Type::NoteOn>
 {
 public:
-  //! Constructor from raw data
-  //! \param data_  The raw data
-  NoteOn(tRawData data_) : MidiMessageBase(std::move(data_))
-  {
-  }
-
   //! Constructor from channel, note and velocity
   /*!
 			\param channel_   The channel
@@ -409,12 +397,6 @@ public:
 class PolyPressure : public midi::MidiMessageBase<midi::MidiMessage::Type::PolyPressure>
 {
 public:
-  //! Constructor from raw data
-  //! \param data_  The raw data
-  PolyPressure(tRawData data_) : MidiMessageBase(std::move(data_))
-  {
-  }
-
   //! Constructor from channel, note and pressure value
   /*!
 			\param channel_   The channel
@@ -426,9 +408,9 @@ public:
   {
   }
 
-  uint8_t getNote() const
+  MidiNote getNote() const
   {
-    return data()[1];
+    return MidiNote(data()[1]);
   }
 
   uint8_t getPressure() const
@@ -447,12 +429,6 @@ public:
 class ControlChange : public midi::MidiMessageBase<midi::MidiMessage::Type::ControlChange>
 {
 public:
-  //! Constructor from raw data
-  //! \param data_  The raw data
-  ControlChange(tRawData data_) : MidiMessageBase(std::move(data_))
-  {
-  }
-
   //! Constructor from channel, controller number and controller value
   /*!
 			\param channel_  The channel
@@ -485,12 +461,6 @@ public:
 class ProgramChange : public midi::MidiMessageBase<midi::MidiMessage::Type::ProgramChange>
 {
 public:
-  //! Constructor from raw data
-  //! \param data_  The raw data
-  ProgramChange(tRawData data_) : MidiMessageBase(std::move(data_))
-  {
-  }
-
   ProgramChange(MidiMessage::Channel channel_, uint8_t program_)
     : MidiMessageBase(channel_, {M_MIDI_BYTE(program_)})
   {
@@ -512,12 +482,6 @@ public:
 class ChannelPressure : public midi::MidiMessageBase<midi::MidiMessage::Type::ChannelPressure>
 {
 public:
-  //! Constructor from raw data
-  //! \param data_  The raw data
-  ChannelPressure(tRawData data_) : MidiMessageBase(std::move(data_))
-  {
-  }
-
   ChannelPressure(MidiMessage::Channel channel_, uint8_t pressure_)
     : MidiMessageBase(channel_, {M_MIDI_BYTE(pressure_)})
   {
@@ -539,12 +503,6 @@ public:
 class PitchBend : public midi::MidiMessageBase<midi::MidiMessage::Type::PitchBend>
 {
 public:
-  //! Constructor from raw data
-  //! \param data_  The raw data
-  PitchBend(tRawData data_) : MidiMessageBase(std::move(data_))
-  {
-  }
-
   PitchBend(MidiMessage::Channel channel_, uint8_t pitchL_, uint8_t pitchH_)
     : MidiMessageBase(channel_, {M_MIDI_BYTE(pitchL_), M_MIDI_BYTE(pitchH_)})
   {
@@ -609,7 +567,7 @@ public:
     }
   }
 
-  Type type() const
+  Type getClockType() const
   {
     return m_type;
   }
@@ -882,22 +840,38 @@ public:
     if (message)
     {
 
-#define M_MESSAGE_CB(idMsg)                   \
-  case MidiMessage::Type::idMsg:              \
-  {                                           \
-    on##idMsg({std::move(message->_data())}); \
-    break;                                    \
+#define M_MESSAGE_CB3(idMsg)                                                                      \
+  case MidiMessage::Type::idMsg:                                                                  \
+  {                                                                                               \
+    if (message->_data().size() != 3)                                                             \
+    {                                                                                             \
+      break;                                                                                      \
+    }                                                                                             \
+    MidiMessage::Channel channel = static_cast<MidiMessage::Channel>(message->_data()[0] & 0x0F); \
+    on##idMsg({channel, message->_data()[1], message->_data()[2]});                               \
+    break;                                                                                        \
+  }
+#define M_MESSAGE_CB2(idMsg)                                                                      \
+  case MidiMessage::Type::idMsg:                                                                  \
+  {                                                                                               \
+    if (message->_data().size() != 2)                                                             \
+    {                                                                                             \
+      break;                                                                                      \
+    }                                                                                             \
+    MidiMessage::Channel channel = static_cast<MidiMessage::Channel>(message->_data()[0] & 0x0F); \
+    on##idMsg({channel, message->_data()[1]});                                                    \
+    break;                                                                                        \
   }
 
       switch (message->getType())
       {
-        M_MESSAGE_CB(NoteOff);
-        M_MESSAGE_CB(NoteOn);
-        M_MESSAGE_CB(PolyPressure);
-        M_MESSAGE_CB(ControlChange);
-        M_MESSAGE_CB(ProgramChange);
-        M_MESSAGE_CB(ChannelPressure);
-        M_MESSAGE_CB(PitchBend);
+        M_MESSAGE_CB3(NoteOff);
+        M_MESSAGE_CB3(NoteOn);
+        M_MESSAGE_CB3(PolyPressure);
+        M_MESSAGE_CB3(ControlChange);
+        M_MESSAGE_CB2(ProgramChange);
+        M_MESSAGE_CB2(ChannelPressure);
+        M_MESSAGE_CB3(PitchBend);
         case MidiMessage::Type::TimingClock:
         case MidiMessage::Type::Start:
         case MidiMessage::Type::Continue:
@@ -925,7 +899,8 @@ public:
         default:
           break;
       }
-#undef M_MESSAGE_CB
+#undef M_MESSAGE_CB3
+#undef M_MESSAGE_CB2
     }
   }
 
