@@ -102,8 +102,8 @@ TEST_CASE("MidiNote getters and setters", "MidiNote")
 
   note.setNote(MidiNote::Name::BFlat);
   CHECK(MidiNote::Name::BFlat == note.getNote());
-  CHECK(106 == note.getNoteValue());
-  CHECK(8 == note.getOctave());
+  CHECK(94 == note.getNoteValue());
+  CHECK(7 == note.getOctave());
 
   note.setNoteValue(13);
   CHECK(MidiNote::Name::CSharp == note.getNote());
