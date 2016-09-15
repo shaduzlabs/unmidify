@@ -22,7 +22,7 @@ matrix:
       compiler: clang
       addons: &clang38
         apt:
-          sources: ['llvm-toolchain-precise', 'ubuntu-toolchain-r-test']
+          sources: ['llvm-toolchain-precise-3.8', 'ubuntu-toolchain-r-test']
           packages: ['clang-3.8', 'gfortran']
       env: CXX_COMPILER='clang++-3.8' C_COMPILER='clang-3.8' Fortran_COMPILER='gfortran' BUILD_TYPE='Release'
 
@@ -88,12 +88,12 @@ matrix:
     - os: osx
       osx_image: xcode6.4
       compiler: gcc
-      env: CXX_COMPILER='g++-5' C_COMPILER='gcc-5' Fortran_COMPILER='gfortran' BUILD_TYPE='Debug'
+      env: BUILD_TYPE='Debug'
 
     - os: osx
       osx_image: xcode6.4
       compiler: gcc
-      env: CXX_COMPILER='g++-5' C_COMPILER='gcc-5' Fortran_COMPILER='gfortran' BUILD_TYPE='Release'
+      env: BUILD_TYPE='Release'
 
 
     - os: osx
